@@ -1,0 +1,35 @@
+{
+  "info": {
+    "name": "Vista Test API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [{ "key": "baseUrl", "value": "http://localhost:3000" }],
+  "item": [
+    {
+      "name": "Create company",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/companies",
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"Acme Sdn Bhd\",\n  \"registrationNumber\": \"202401012345\"\n}" }
+      }
+    },
+    {
+      "name": "List companies",
+      "request": { "method": "GET", "url": "{{baseUrl}}/companies" }
+    },
+    {
+      "name": "Create service",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/services",
+        "body": { "mode": "raw", "raw": "{\n  \"companyId\": 1,\n  \"name\": \"Web Development\",\n  \"description\": \"Custom website build\",\n  \"price\": 1500.50\n}" }
+      }
+    },
+    {
+      "name": "Get service by ID",
+      "request": { "method": "GET", "url": "{{baseUrl}}/services/1" }
+    }
+  ]
+}
