@@ -12,12 +12,12 @@ router.post(
   [
     body('name')
       .isString().withMessage('name must be a string').bail()
-      .trim().notEmpty().withMessage('name is required'),
+      .trim().notEmpty().withMessage('name is required').bail()
+      .isLength({ max: 191 }).withMessage('name must be at most 191 characters'),
     body('registrationNumber')
-      .isString()
-      .trim()
-      .notEmpty()
-      .withMessage('registrationNumber is required'),
+      .isString().withMessage('registrationNumber must be a string').bail()
+      .trim().notEmpty().withMessage('registrationNumber is required').bail()
+      .isLength({ max: 191 }).withMessage('registrationNumber must be at most 191 characters'),
     validate,
   ],
   asyncHandler(async (req, res) => {

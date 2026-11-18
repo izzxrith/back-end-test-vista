@@ -10,10 +10,21 @@ const router = Router();
 router.post(
   '/',
   [
-    body('companyId').isInt({ min: 1 }).withMessage('companyId must be a positive integer').toInt(),
-    body('name').isString().trim().notEmpty().withMessage('name is required'),
-    body('description').isString().trim().notEmpty().withMessage('description is required'),
-    body('price').isFloat({ min: 0 }).withMessage('price must be a number >= 0').toFloat(),
+    body('companyId')
+      .isInt({ min: 1, max: 2147483647 })
+      .withMessage('companyId must be a positive integer')
+      .toInt(),
+    body('name')
+      .isString().withMessage('name must be a string').bail()
+      .trim().notEmpty().withMessage('name is required').bail()
+      .isLength({ max: 191 }).withMessage('name must be at most 191 characters'),
+    body('description')
+      .isString().withMessage('description must be a string').bail()
+      .trim().notEmpty().withMessage('description is required'),
+    body('price')
+      .isFloat({ min: 0, max: 99999999.99 })
+      .withMessage('price must be a number between 0 and 99999999.99')
+      .toFloat(),
     validate,
   ],
   asyncHandler(async (req, res) => {
@@ -32,7 +43,13 @@ router.post(
 
 router.get(
   '/:id',
-  [param('id').isInt({ min: 1 }).withMessage('id must be a positive integer').toInt(), validate],
+  [
+    param('id')
+      .isInt({ min: 1, max: 2147483647 })
+      .withMessage('id must be a positive integer')
+      .toInt(),
+    validate,
+  ],
   asyncHandler(async (req, res) => {
     const id = Number(req.params.id);
     const service = await prisma.service.findUnique({ where: { id } });

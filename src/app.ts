@@ -11,6 +11,20 @@ app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
 
+app.get('/', (_req, res) => {
+  res.json({
+    name: 'Vista Test API',
+    status: 'running',
+    endpoints: [
+      'POST /companies',
+      'GET /companies',
+      'POST /services',
+      'GET /services/:id',
+      'GET /health',
+    ],
+  });
+});
+
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 app.use('/companies', companiesRouter);
 app.use('/services', servicesRouter);
